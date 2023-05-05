@@ -1,0 +1,34 @@
+---
+version: "3.7"
+
+services:
+  galaxy:
+    build:
+      dockerfile: "Dockerfile"
+
+    environment:
+      # Required
+      - "HOSTNAME=localhost"
+
+      # Optional
+      - "PORT=443"
+      - "PULP_HTTPS=true"
+      - "PULP_WORKERS=2"
+      - "PULP_API_WORKERS=2"
+      - "PULP_CONTENT_WORKERS=2"
+
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "oci_pulp:/var/lib/pulp"
+      - "oci_redis_data:/data"
+      - "oci_pg_data:/var/lib/pgsql"
+
+volumes:
+  oci_pulp:
+    name: "galaxy_pulp"
+  oci_pg_data:
+    name: "galaxy_pg_data"
+  oci_redis_data:
+    name: "galaxy_redis_data"
